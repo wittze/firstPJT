@@ -21,10 +21,11 @@ body {
 }
 
 header .navbar-brand {
-	background: url('http://static.nowcoder.com/images/res/logo/logo-v3.png') no-repeat;
-	background-size: 147px 42px;
-	width: 147px;
-	height: 42px;
+	/*background: url('http://static.nowcoder.com/images/res/logo/logo-v3.png') no-repeat;*/
+	background: url('https://tse1-mm.cn.bing.net/th/id/R-C.b0175ac41db482db73e61d557c6778a9?rik=qRbpI8UnEcGPXA&riu=http%3a%2f%2ftb2.bdstatic.com%2ftb%2feditor%2fimages%2ffaceshop%2f1136_huajijiazu%2fs_1136_huajijiazu_huaji.png&ehk=vmXS9bZfXnFBQ8F%2bun6fh3%2bRL3jfp0lQfkQF7rSKccg%3d&risl=&pid=ImgRaw&r=0') no-repeat;
+	background-size: 50px 50px;
+	width: 50px;
+	height: 50px;
 	margin: 5px 15px 5px 0;
 }
 
