@@ -59,7 +59,7 @@ public class UserController {
         }
         //获取文件原名
         String fileName = headerImage.getOriginalFilename();
-        //获取文件的格式（.xxx）
+        //获取文件的格式(.xxx)
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "文件的格式不正确!");
@@ -108,6 +108,45 @@ public class UserController {
         } catch (IOException e) {
             logger.error("读取头像失败: " + e.getMessage());
         }
+    }
+
+    //改密,比较的是MD5，要注意
+    @LoginRequired
+    @RequestMapping(path = "/changepwd", method = RequestMethod.POST)
+    public String changePwd(String oldPwd,String newPwd,String newPwd2, Model model) {
+        //取出用户
+        User user = hostHolder.getUser();
+
+        //旧密码对不对
+        String oldPwdMD5 = CommunityUtil.md5(oldPwd + user.getSalt());
+        if (!user.getPassword().equals(oldPwdMD5)) {
+            model.addAttribute("changeError1", "原密码不正确!");
+            return "/site/setting";
+        }
+        //没有输入
+        if (StringUtils.isBlank(newPwd)) {
+            model.addAttribute("changeError", "密码不能为空!");
+            return "/site/setting";
+        }
+
+        //检查新旧是否一样
+        String newPwdMD5 = CommunityUtil.md5(newPwd + user.getSalt());
+        if (oldPwdMD5.equals(newPwdMD5)) {
+            model.addAttribute("changeError", "新密码不能和旧密码一致!");
+            return "/site/setting";
+        }
+
+        //检查新旧是否一样
+        if (!newPwd.equals(newPwd2)) {
+            model.addAttribute("changeError2", "两次输入密码不一致!");
+            return "/site/setting";
+        }
+
+        //无问题，更新
+        userService.updatePassword(user.getId(), newPwdMD5);
+
+        //修改成功跳转到登录界面
+        return "redirect:/login";
     }
 
 }

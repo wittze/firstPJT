@@ -163,7 +163,7 @@ public class UserService implements CommunityConstant{
         LoginTicket loginTicket = new LoginTicket();
         loginTicket.setUserId(user.getId());
         loginTicket.setTicket(CommunityUtil.generateUUID());
-        //登录状态
+        //设置为登录状态0
         loginTicket.setStatus(0);
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
         loginTicketMapper.insertLoginTicket(loginTicket);
@@ -172,6 +172,7 @@ public class UserService implements CommunityConstant{
         return map;
     }
 
+    // 退出登录，置为1
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
     }
@@ -180,8 +181,14 @@ public class UserService implements CommunityConstant{
         return loginTicketMapper.selectByTicket(ticket);
     }
 
-    //   更新头像
+    // 更新头像链接
     public int updateHeader(int userId, String headerUrl) {
         return userMapper.updateHeader(userId, headerUrl);
     }
+
+    // 更新密码
+    public int updatePassword(int id, String password){
+        return userMapper.updatePassword(id, password);
+    }
+
 }
